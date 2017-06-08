@@ -4,12 +4,8 @@ import subprocess as sp
 
 resx = 32
 resy = 16
-
-mapmatrix = [[0 for x in range(resx)] for y in range(resy)] 
-
-score = 1
-livesleft = 4
-bombsleft = 2
+x,y = 0,0
+mapmatrix = [[0 for x in range(resy)] for y in range(resx)] 
 
 blocks = {}
 blocks[1] =	'░'
@@ -22,101 +18,22 @@ blocks[7] =	u'\U0001F46E' #cop
 blocks[8] =	u'\U0001F525' #fire - Effect
 blocks[9] =	u'\U0001F34B' #lemon - Powerup
 
-map=[]
 
-def smartmap():
-	tofill = (resx-1)*(resy-1)
-	while tofill != 0:
-		charx = random.randint(1,resx-1)
-		chary = random.randint(1,resy-1)
 
-		# choice = blocks[random.randint(1,9)]
-		# map.append(choice)
-		# tofill -= 1
-	x,y = 0
-	sauron = mapmatrix[x][y]
-	tile = 0
-	while y < resy+1:
-		if y == 0:
-			x1 = 0
-			while x1 < resx+1:
-				if x1 == 0:
-					sys.stdout.write('╔')
-				elif x1 == resx:	
-					sys.stdout.write('╗')
-				else:
-					sys.stdout.write('═')
-				x1+=1
-		elif y == resy:
-			x1 = 0
-			while x1 < resx+1:
-				if x1 == 0:
-					sys.stdout.write('╚')
-				elif x1 == resx:	
-					sys.stdout.write('╝')
-				else:
-					sys.stdout.write('═')
-				x1+=1
-		else:
-			while x < resx+1:
-				if x == 0:
-					sys.stdout.write('║')
-					x+=1
-				elif x == resx:
-					sys.stdout.write('║')
-					x+=1
-				else:
-					sys.stdout.write(map[tile])
-					tile+=1
-					x+=1
-		y+=1
-		x=0
-
-smartmap()
-
-def draw():
+def smartdraw():
+	tileno = 1
 	sp.call('clear',shell=True)
-	x = 0
-	y = 0
-	tile = 0
-	while y < resy+1:
-		if y == 0:
-			x1 = 0
-			while x1 < resx+1:
-				if x1 == 0:
-					sys.stdout.write('╔')
-				elif x1 == resx:	
-					sys.stdout.write('╗')
-				else:
-					sys.stdout.write('═')
-				x1+=1
-		elif y == resy:
-			x1 = 0
-			while x1 < resx+1:
-				if x1 == 0:
-					sys.stdout.write('╚')
-				elif x1 == resx:	
-					sys.stdout.write('╝')
-				else:
-					sys.stdout.write('═')
-				x1+=1
-		else:
-			while x < resx+1:
-				if x == 0:
-					sys.stdout.write('║')
-					x+=1
-				elif x == resx:
-					sys.stdout.write('║')
-					x+=1
-				else:
-					sys.stdout.write(map[tile])
-					tile+=1
-					x+=1
-		y+=1
-		x=0
+	for xno in xrange(0,resy):
+		for yno in xrange(0,resx):
+			if xno == 0:
+				if 
+			mapmatrix[yno][xno] = '▓'
+			tileno+=1
+			current = str(mapmatrix[yno][xno])
+			sys.stdout.write(current)
 		print
-	print "Score:",score,"   Lives:",livesleft,"   Bombs:",bombsleft
 
 while True:
-	draw()
+	smartdraw()
 	time.sleep(0.1)
+
