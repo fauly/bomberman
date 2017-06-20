@@ -1,39 +1,56 @@
-# -*- coding: UTF-8 -*-	
-import sys, random, time
+# -*- coding: UTF-8 -*-
+import sys, random, time,os
 import subprocess as sp
 
-resx = 32
-resy = 16
+running = True
+osrun = os.name
+print osrun
+
+if osrun == 'mac':
+	resx = 32
+	resy = 16
+elif osrun == 'nt':
+	resx = 14
+	resy = 16
+else:
+	resx = 16
+	resy = 16
+
+
 x,y = 0,0
-mapmatrix = [[0 for x in range(resy)] for y in range(resx)] 
-
-blocks = {}
+mapmatrix = [[0 for x in range(resy)] for y in range(resx)]
 edge = {}
-blocks[0] =	'░'
-blocks[1] =	'▒'
-blocks[2] =	'▓'
-blocks[3] =	u'\U0001F4A3'.encode('utf-8') #Bomb
-blocks[4] =	u'\U0001F480'.encode('utf-8') #skull
-blocks[5] =	u'\U0001F47F'.encode('utf-8') #devil
-blocks[6] =	u'\U0001F46E'.encode('utf-8') #cop
-blocks[7] =	u'\U0001F525'.encode('utf-8') #fire - Effect
-blocks[8] =	u'\U0001F34B'.encode('utf-8') #lemon - Powerup
+blocks = {}
+blocks[1] =		'░','#'
+blocks[2] =		'▒','#'
+blocks[3] =		'▓','#'
+blocks[4] =	u'\U0001F4A3','B' #Bomb
+blocks[5] =	u'\U0001F480','S' #skull
+blocks[6] =	u'\U0001F47F','D' #devil
+blocks[7] =	u'\U0001F46E','C' #cop
+blocks[8] =	u'\U0001F525','@' #fire - Effect
+blocks[9] =	u'\U0001F34B','*' #lemon - Powerup
 
-edge[0] = '╔'
-edge[1] = '╗'
-edge[2] = '═'
-edge[3] = '╚'
-edge[4] = '╝'
-edge[5] = '║'
+edge[0] = u'\u2554'
+edge[1] = u'\u2557'
+edge[2] = u'\u2550'
+edge[3] = u'\u255A'
+edge[4] = u'\u255D'
+edge[5] = u'\u2551'
 
-charx,chary = random.randint(1,resx-2),random.randint(1,resy-2)	
+charx,chary = random.randint(1,resx-2),random.randint(1,resy-2)
 
 def generate():
 	tileno = 1
 	for yno in xrange(0,resy):
 		for xno in xrange(0,resx):
 			if yno == chary and xno == charx:
-				mapmatrix[xno][yno] = blocks[6]
+				if osrun == 'mac':
+					mapmatrix[xno][yno] = blocks[6][0]
+				elif osrun == 'nt':
+					mapmatrix[xno][yno] = blocks[6][1]
+				else:
+					print "Shit"
 			else:
 				if yno == 0:
 					if xno == 0:
@@ -54,7 +71,12 @@ def generate():
 				elif xno == resx-1:
 					mapmatrix[xno][yno] = edge[5]
 				else:
-					mapmatrix[xno][yno] = blocks[0]
+					if osrun == 'mac':
+						mapmatrix[xno][yno] = blocks[0][0]
+					elif osrun == 'nt':
+						mapmatrix[xno][yno] = blocks[0][1]
+					else:
+						print "Shit"
 			tileno+=1
 
 def smartdraw():
@@ -64,4 +86,3 @@ def smartdraw():
 			current = str(mapmatrix[xno][yno])
 			sys.stdout.write(current)
 		print
-
